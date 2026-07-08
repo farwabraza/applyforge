@@ -1,0 +1,12 @@
+{
+  "name": "ApplyForge",
+  "short_name": "ApplyForge",
+  "description": "Gap Reports, tailored CVs, cover letters in your voice, application tracker.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7F3EB",
+  "theme_color": "#1A1A17",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

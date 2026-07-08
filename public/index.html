@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ApplyForge — Every rejection has a reason. See yours first.</title>
+<meta name="description" content="Gap Reports, tailored CVs, cover letters in your voice, and an application tracker. 3 days free, then €7/month." />
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#1A1A17" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+<header class="mast">
+  <div class="logo">Apply<em>Forge</em></div>
+  <nav id="nav">
+    <button data-view="tracker" class="navbtn active">Tracker</button>
+    <button data-view="gap" class="navbtn">Gap Report</button>
+    <button data-view="tailor" class="navbtn">Tailor CV</button>
+    <button data-view="builder" class="navbtn">CV Builder</button>
+    <button data-view="letter" class="navbtn">Cover Letter</button>
+    <button data-view="answers" class="navbtn">Answer Bank</button>
+    <button data-view="concierge" class="navbtn">Anything Else</button>
+  </nav>
+  <div class="mast-right">
+    <span id="trialBadge" class="badge"></span>
+    <span id="userEmail" class="small muted"></span>
+    <button id="profileBtn" class="ghost">My Profile</button>
+    <button id="logoutBtn" class="ghost mini hidden">Log out</button>
+  </div>
+</header>
+
+<!-- Auth modal -->
+<div id="authModal" class="modal hidden">
+  <div class="modal-card">
+    <h2 class="serif">Your career, <em style="color:var(--accent)">under lock.</em></h2>
+    <p>One account keeps your profile, tracker, answer bank, and subscription safe — and synced to every device. Signing up starts your <b>3 free days of everything</b>.</p>
+    <input id="authEmail" type="text" placeholder="Email" autocomplete="email" style="margin-bottom:10px" />
+    <input id="authPass" type="password" placeholder="Password (8+ characters)" autocomplete="current-password" />
+    <div class="row gap" style="margin-top:14px">
+      <button id="authSignUp" class="cta" style="flex:1">Start free trial</button>
+      <button id="authSignIn" class="ghost" style="padding:13px 18px">Sign in</button>
+    </div>
+    <p id="authMsg" class="small muted" style="min-height:16px"></p>
+    <p class="small muted">Your documents are processed for generation only — never stored on our servers. Your profile and tracker are stored encrypted, visible only to you.</p>
+  </div>
+</div>
+
+<main id="app"></main>
+
+<!-- Profile drawer -->
+<div id="drawer" class="drawer hidden">
+  <div class="drawer-inner">
+    <div class="drawer-head"><h2 class="serif">Master Profile</h2><button class="ghost" id="drawerClose">✕ Close</button></div>
+    <p class="muted">Upload your CV once — PDF or Word. ApplyForge reads it directly and structures it. Everything else in the app builds from this.</p>
+    <div class="dropzone" id="profileDrop">
+      <strong>Drop your CV here</strong><span>PDF · DOCX · TXT — or click to browse</span>
+      <input type="file" id="profileFile" accept=".pdf,.docx,.txt" hidden />
+    </div>
+    <div class="li-hint"><b>Import from LinkedIn instead:</b> open your LinkedIn profile → tap <b>More</b> (or Resources) → <b>Save to PDF</b> → drop that file above. ApplyForge recognises LinkedIn exports and builds your profile from them automatically.</div>
+    <div id="profileStatus" class="muted small"></div>
+    <div id="profileView"></div>
+    <div class="row gap">
+      <button id="profileEdit" class="ghost hidden">Edit as JSON</button>
+      <button id="profileClear" class="ghost hidden danger">Delete profile</button>
+    </div>
+    <textarea id="profileJson" class="hidden mono" rows="16"></textarea>
+    <button id="profileSave" class="cta hidden">Save profile</button>
+    <hr/>
+    <h3 class="serif">Your writing voice <span class="muted small">(optional, improves letters)</span></h3>
+    <textarea id="voiceSample" rows="5" placeholder="Paste 1–2 old cover letters or emails you wrote — ApplyForge will match your rhythm and vocabulary."></textarea>
+    <button id="voiceSave" class="ghost">Save voice sample</button>
+  </div>
+</div>
+
+<!-- Paywall modal -->
+<div id="paywall" class="modal hidden">
+  <div class="modal-card">
+    <h2 class="serif">Your 3 free days are up.</h2>
+    <p>You've seen what ApplyForge does. Keep the full arsenal — unlimited Gap Reports, tailored CVs, cover letters, answer drafts, and your tracker — for less than one coffee a week.</p>
+    <a id="checkoutLink" class="cta block" href="#" target="_blank" rel="noopener">Continue — €7/month</a>
+    <div class="row gap" style="margin-top:14px">
+      <input id="licenseInput" placeholder="Already subscribed? Paste your license key" />
+      <button id="licenseBtn" class="ghost">Activate</button>
+    </div>
+    <p id="licenseMsg" class="small muted"></p>
+    <p class="small muted">Cancel anytime. Your documents are processed for generation only — never stored on our servers.</p>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="/app.js"></script>
+</body>
+</html>
